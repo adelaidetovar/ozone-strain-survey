@@ -1,7 +1,7 @@
 source("0_functions.R")
 source("1_data_cleaning.R")
 
-output_dir <- file.path("../../output/data_stats")
+output_dir <- file.path("../output/pheno_data_stats/")
 
 if (!dir.exists(output_dir)){
   dir.create(output_dir)
@@ -10,6 +10,7 @@ if (!dir.exists(output_dir)){
 }
 
 set.wd(output_dir)
+rm(output_dir)
 
 ###############
 #### ANOVA ####
