@@ -1,3 +1,5 @@
+# contributed by Wes Crouse and Adelaide Tovar
+
 source("0_functions.R")
 
 setwd("../data")
