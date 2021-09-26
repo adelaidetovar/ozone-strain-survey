@@ -44,7 +44,7 @@ info$strain[info$strain=="C57BL/6J"] <- "B6"
 
 # Download expression data from GEO
 getGEOSuppFiles("GSE174205", filter_regex = ".txt.gz")
-df <- read.table(gzfile("../data/GSE174205_summary_count_matrix.txt.gz"), head=T, row.names=NULL)
+df <- read.table(gzfile("../GSE174205/GSE174205_summary_count_matrix.txt.gz"), head=T, row.names=NULL)
 df <- df[!duplicated(df$Genes),]
 rownames(df) <- NULL
 df <- df %>% column_to_rownames(var = "Genes")
