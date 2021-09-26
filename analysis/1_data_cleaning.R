@@ -44,7 +44,10 @@ info$strain[info$strain=="C57BL/6J"] <- "B6"
 
 # Download expression data from GEO
 getGEOSuppFiles("GSE174205", filter_regex = ".txt.gz")
-df <- read.table(gzfile("GSE174205/GSE174205_summary_count_matrix.txt"), head=T, row.names=1)
+df <- read.table(gzfile("../data/GSE174205_summary_count_matrix.txt.gz"), head=T, row.names=NULL)
+df <- df[!duplicated(df$Genes),]
+rownames(df) <- NULL
+df <- df %>% column_to_rownames(var = "Genes")
 
 df <- t(df)
 rownames(df) <- sapply(rownames(df), function(x){unlist(strsplit(x, split="_"))[1]})
@@ -58,8 +61,10 @@ set <- c("mouse_no","eotaxin", "gcsf", "gmcsf", "il10", "il12p70", "il6",
 
 pheno <- full_join(cytokines[cytokines$mouse_no%in%ids,set],
                bal[bal$mouse_no%in%ids,c("mouse_no","per_neu", "no_neu", "per_macs", "no_macs")],
-               protein[protein$mouse_no%in%ids, c("mouse_no","protein_conc")],
                by = "mouse_no")
+pheno <- full_join(pheno,
+                   protein[protein$mouse_no%in%ids, c("mouse_no","protein_conc")],
+                   by = "mouse_no")
 pheno$mouse_no <- paste0("X",pheno$mouse_no)
 pheno <- pheno %>% column_to_rownames("mouse_no")
 
@@ -70,8 +75,6 @@ pheno <- pheno %>% column_to_rownames("mouse_no")
 info <- info[info$pair!="x",]
 df <- df[rownames(info),]
 pheno <- pheno[rownames(info),]
-pheno_S1 <- pheno_S1[rownames(info),]
-pheno_S2 <- pheno_S2[rownames(info),]
 
 #drop genes with fewer counts than samples
 df <- df[,colSums(df) >= nrow(df)]

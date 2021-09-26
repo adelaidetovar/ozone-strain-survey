@@ -9,7 +9,7 @@ if (!dir.exists(output_dir)){
   print("Directory already exists!")
 }
 
-set.wd(output_dir)
+setwd(output_dir)
 rm(output_dir)
 
 #if using R < 4.0
@@ -49,13 +49,6 @@ plot(sampleTree)
 #PCA to detect outliers
 pca <- prcomp(datExpr0)
 factoextra::fviz_pca_biplot(pca, geom="point")
-
-#load subject information
-library(readxl)
-
-info <- data.frame(read_xlsx("../../data/me93 RNA-seq ids.xlsx"))
-rownames(info) <- paste0("X", info$mouse_no)
-info$strain[info$strain=="C57BL/6J"] <- "B6"
 
 #cleaned data (no change)
 datExpr <- datExpr0
@@ -160,13 +153,12 @@ print(-sort(-table(moduleColors)))
 print(length(unique(moduleColors)))
 
 #correlations between eigengenes and phenotypes
-load("results/ozone_processed_pheno.RData")
 datTraits <- pheno
 datTraits <- datTraits[,c(1,4,6:9,12,14,15,17,18)]
 datTraits$mouse_no <- rownames(datTraits)
 datTraits$mouse_no <- sapply(datTraits$mouse_no, 
                              function(x){unlist(strsplit(x, split="X"))[2]})
-datTraits <- merge(bal[,c(1,13)], datTraits, by="mouse_no")
+datTraits <- merge(bal[,c(1,14)], datTraits, by="mouse_no")
 datTraits$mouse_no <- paste0("X",datTraits$mouse_no)
 rownames(datTraits) <- datTraits$mouse_no
 datTraits <- datTraits[,c(3:9,13,10,11,2)]

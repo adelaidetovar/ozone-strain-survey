@@ -18,7 +18,7 @@ BiocManager::install("GEOquery")
 
 tc_packages <- c("openxlsx", "ggfortify", "ggcorrplot", "rstatix", "dplyr",
                  "tidyverse", "ggrepel", "reshape2", "patchwork", "WGCNA", "enrichR",
-                 "ashr", "factoextra", "biomart","GEOquery")
+                 "ashr", "factoextra", "biomaRt","GEOquery", "readxl", "DESeq2")
 using(tc_packages)
 
 tc_colors <- c("#E69F00", "#56B4E9", "#009E73", 
@@ -39,10 +39,15 @@ tc_labels <- c("FA.C57BL/6J"="FA",
 
 tc_strains <- c("C57BL/6J","CC003","CC017","CC025","CC039","CC059")
 
-flow_labels <- c("FA.BAL"="BAL - FA",
-                  "O3.BAL"=expression("BAL - O"[3]),
-                  "FA.Adherent"="Adherent - FA",
-                  "O3.Adherent"=expression("Adherent - O"[3]))
+output_dir <- file.path("../output/")
+
+if (!dir.exists(output_dir)){
+  dir.create(output_dir)
+} else {
+  print("Directory already exists!")
+}
+
+rm(output_dir)
 
 ############################
 #### Plotting Functions ####

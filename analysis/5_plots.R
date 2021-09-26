@@ -10,6 +10,7 @@ if (!dir.exists(output_dir)){
 }
 
 setwd(output_dir)
+rm(output_dir)
 
 ##################
 #### Plotting ####

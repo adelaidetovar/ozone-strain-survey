@@ -9,7 +9,7 @@ if (!dir.exists(output_dir)){
   print("Directory already exists!")
 }
 
-set.wd(output_dir)
+setwd(output_dir)
 rm(output_dir)
 
 ##########################################
@@ -51,9 +51,9 @@ save(resLFC, file="resLFC_LRT_gt_g.RData")
 #output list of differentially expressed genes
 table <- data.frame(resLFC)
 
-write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05 & table$log2FoldChange>0], file=paste0(output_dir,"DE_positive.txt"), quote=F, row.names=F, col.names=F)
-write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05 & table$log2FoldChange<0], file=paste0(outut_dir,"DE_negative.txt"), quote=F, row.names=F, col.names=F)
-write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05], file=paste0(output_dir,"DE_all.txt"), quote=F, row.names=F, col.names=F)
+write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05 & table$log2FoldChange>0], file="DE_positive.txt", quote=F, row.names=F, col.names=F)
+write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05 & table$log2FoldChange<0], file="DE_negative.txt", quote=F, row.names=F, col.names=F)
+write.table(rownames(table)[!is.na(table$padj) & table$padj < 0.05], file="DE_all.txt", quote=F, row.names=F, col.names=F)
 
 #store output table
 output <- resLFC
@@ -445,6 +445,7 @@ sum(results(dds_nopair)$padj<0.05, na.rm=T)
 sum(apply(G_padj_in_GTX, 1, function(x){any(x<0.05, na.rm=T)}) &
       apply(G_padj, 1, function(x){any(x<0.05, na.rm=T)}) & 
       results(dds_nopair)$padj<0.05)
+
 #---------------
 
 colnames(G_coef) <- sapply(colnames(G_coef), function(x){paste0(x, "_G")})

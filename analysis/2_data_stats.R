@@ -9,7 +9,7 @@ if (!dir.exists(output_dir)){
   print("Directory already exists!")
 }
 
-set.wd(output_dir)
+setwd(output_dir)
 rm(output_dir)
 
 ###############
@@ -187,12 +187,15 @@ anova(base,full,test="LRT") # 0.1293
 
 ## one-sample t-tests for those with drop-outs
 # eotaxin, CC0059
-t.test(eotaxin$value[c(34,35,39,40)], mu=eotaxin$value[33])
+eotaxin <- cytokines %>% dplyr::select(eotaxin)
+t.test(eotaxin$eotaxin[c(34,35,39,40)], mu=eotaxin$eotaxin[33])
 
 # il6, CC003
-t.test(il6$value[c(1,3:5,7)], mu=il6$value[2])
+il6 <- cytokines %>% dplyr::select(il6)
+t.test(il6$il6[c(1,3:5,7)], mu=il6$il6[2])
 
 # mip1b, CC003
+mip1b <- cytokines %>% dplyr::select(mip1b)
 t.test(mip1b$mip1b[c(1,3:5,7)], mu=mip1b$mip1b[2])
 
 # mip1b, CC017
@@ -203,3 +206,4 @@ t.test(mip1b$mip1b[c(17,18,21)],mu=mip1b$mip1b[24])
 
 # mip1b, CC039
 t.test(mip1b$mip1b[c(25,26,30,31)], mu=mip1b$mip1b[29])
+
