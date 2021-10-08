@@ -276,8 +276,7 @@ lg.genes <- union(down, up)
 sm.genes <- setdiff(diffexp$gene_name, lg.genes)
 
 # highest DE genes
-top.diffexp <- diffexp[order(abs(diffexp$log2FoldChange), decreasing = TRUE)[1:15], ]
-top.diffexp <- top.diffexp[!is.na(top.diffexp)]
+top.diffexp <- diffexp[order(abs(diffexp$log2FoldChange), decreasing = TRUE)[1:10], ]
 top.diffexp <- rownames(top.diffexp)
 
 x <- log10(table$baseMean)
@@ -304,24 +303,24 @@ maplot.basic <- p +
 
 maplot.highlight <- p +
   geom_point(data = df[!(df$gene_name %in% diffexp$gene_name),],
-             aes(x, y, col = "gray60"), size = 1.3, shape = 16) +
+             aes(x, y, col = "gray60"), size = 1.3, shape = 16, alpha = 0.25) +
   geom_point(data = df[df$gene_name %in% sm.genes,],
-             aes(x, y, col = "#9999ff"), size = 1.3, shape = 16) +
+             aes(x, y, col = "#9999ff"), size = 1.3, shape = 16, alpha = 0.65) +
   geom_point(data = df[df$gene_name %in% lg.genes,],
-             aes(x, y, col = "blue"), size = 1.3, shape = 16) +
+             aes(x, y, col = "blue"), size = 1.3, shape = 16, alpha = 0.65) +
   geom_hline(yintercept = 0, size = 0.8) +
   geom_label_repel(data = df[df$gene_name %in% top.diffexp,],
                    point.padding = 0.2,
-                   nudge_x = 0.15,
+                   nudge_x = 0.2,
                    nudge_y = 0.5,
                    min.segment.length = 0,
+                   max.overlaps = 10,
                    fill = "white",
-                   xlim = c(-1,6),
-                   ylim = c(0,7),
+                   xlim = c(-5,6),
+                   ylim = c(0,7.5),
                    fontface = "italic")
 
 ggsave(plot = maplot.highlight, "maplot_labels.png", dpi = 300, height = 5, width = 7, units = "in")
-ggsave(plot = maplot.highlight, "maplot.png", dpi = 300, height = 5, width = 7, units = "in")
 
 ########################################
 #### PCA biplot for genes x strains ####
